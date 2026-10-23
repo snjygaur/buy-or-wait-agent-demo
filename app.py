@@ -23,11 +23,197 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-      .block-container {padding-top: 2rem; padding-bottom: 3rem; max-width: 1180px;}
-      .hero {padding: 1.35rem 1.5rem; border: 1px solid rgba(128,128,128,.25); border-radius: 18px; margin-bottom: 1.1rem;}
-      .muted {color: #7b8190; font-size: .92rem;}
-      div[data-testid="stMetric"] {border: 1px solid rgba(128,128,128,.22); padding: 1rem; border-radius: 14px;}
-      .small-note {font-size:.82rem; color:#7b8190;}
+      :root {
+        --ink: #101828;
+        --muted: #64748b;
+        --brand: #2457d6;
+        --line: #e2e8f0;
+        --surface: #ffffff;
+      }
+      html, body, [data-testid="stAppViewContainer"] {
+        background: #f4f7fb;
+      }
+      [data-testid="stHeader"] { background: rgba(244,247,251,.92); }
+      [data-testid="stAppViewContainer"] > .main {
+        background:
+          radial-gradient(circle at 8% 2%, rgba(59,130,246,.08), transparent 24rem),
+          radial-gradient(circle at 96% 12%, rgba(20,184,166,.07), transparent 22rem),
+          #f4f7fb;
+      }
+      .block-container {
+        max-width: 1280px;
+        padding-top: 1.6rem;
+        padding-bottom: 3.5rem;
+      }
+      .hero {
+        position: relative;
+        overflow: hidden;
+        padding: 2.05rem 2.15rem 1.85rem;
+        background: linear-gradient(125deg, #0b1224 0%, #172554 52%, #2457d6 100%);
+        color: #f8fafc;
+        border: 1px solid rgba(255,255,255,.15);
+        border-radius: 24px;
+        margin: .2rem 0 1.3rem;
+        box-shadow: 0 18px 48px rgba(15,23,42,.16);
+      }
+      .hero:after {
+        content: "";
+        position: absolute;
+        width: 270px;
+        height: 270px;
+        right: -90px;
+        top: -130px;
+        border: 1px solid rgba(255,255,255,.14);
+        border-radius: 50%;
+        box-shadow: 0 0 0 30px rgba(255,255,255,.035), 0 0 0 65px rgba(255,255,255,.025);
+        pointer-events: none;
+      }
+      .hero .muted {
+        color: #93c5fd;
+        font-size: .74rem;
+        font-weight: 800;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+      }
+      .hero h1 {
+        color: #ffffff !important;
+        font-size: clamp(2.1rem, 4vw, 3rem);
+        font-weight: 800;
+        letter-spacing: -.045em;
+        line-height: 1.1;
+        margin: .55rem 0 .65rem;
+      }
+      .hero div:not(.muted) {
+        position: relative;
+        z-index: 1;
+        max-width: 760px;
+        color: #e2e8f0;
+        font-size: 1.07rem;
+        line-height: 1.65;
+      }
+      h1, h2, h3, h4 {
+        color: #101828 !important;
+        letter-spacing: -.025em;
+      }
+      h2 { font-weight: 780 !important; }
+      h3 { font-weight: 750 !important; }
+      .section-head {
+        display: flex;
+        align-items: center;
+        gap: .9rem;
+        background: rgba(255,255,255,.93);
+        border: 1px solid #e3eaf3;
+        border-radius: 17px;
+        padding: .95rem 1.1rem;
+        margin: 1.1rem 0 .85rem;
+        box-shadow: 0 5px 18px rgba(15,23,42,.035);
+      }
+      .section-badge {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-width: 44px;
+        height: 44px;
+        border-radius: 13px;
+        background: #eaf1ff;
+        color: #2457d6;
+        font-size: .95rem;
+        font-weight: 850;
+      }
+      .section-title {
+        color: #101828;
+        font-size: 1.05rem;
+        font-weight: 800;
+        letter-spacing: -.02em;
+        line-height: 1.25;
+      }
+      .section-desc {
+        color: #64748b;
+        font-size: .84rem;
+        margin-top: .22rem;
+        line-height: 1.45;
+      }
+      [data-testid="stMetric"] {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        padding: 1rem 1.15rem;
+        border-radius: 17px;
+        box-shadow: 0 6px 20px rgba(15,23,42,.045);
+      }
+      [data-testid="stMetricLabel"] {
+        color: #64748b;
+        font-weight: 650;
+        font-size: .86rem;
+      }
+      [data-testid="stMetricValue"] {
+        color: #101828;
+        font-weight: 820;
+        letter-spacing: -.035em;
+      }
+      [data-testid="stTextInput"] input,
+      [data-testid="stNumberInput"] input,
+      [data-testid="stDateInput"] input,
+      [data-baseweb="select"] > div {
+        border-radius: 11px !important;
+        border-color: #cbd5e1 !important;
+        background: #ffffff;
+      }
+      [data-testid="stTextInput"] input:focus,
+      [data-testid="stNumberInput"] input:focus,
+      [data-testid="stDateInput"] input:focus {
+        border-color: #2457d6 !important;
+        box-shadow: 0 0 0 2px rgba(36,87,214,.12) !important;
+      }
+      [data-testid="stWidgetLabel"] p {
+        color: #344054;
+        font-weight: 650;
+      }
+      .stButton > button, [data-testid="stDownloadButton"] > button {
+        border: 0;
+        border-radius: 12px;
+        min-height: 2.9rem;
+        font-weight: 750;
+        transition: transform .15s ease, box-shadow .15s ease;
+      }
+      .stButton > button[kind="primary"] {
+        color: #ffffff;
+        background: linear-gradient(100deg, #2457d6, #3677f6);
+        box-shadow: 0 8px 18px rgba(36,87,214,.22);
+      }
+      .stButton > button:hover, [data-testid="stDownloadButton"] > button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 9px 22px rgba(15,23,42,.12);
+      }
+      [data-testid="stAlert"] {
+        border-radius: 13px;
+      }
+      [data-testid="stExpander"] {
+        background: rgba(255,255,255,.88);
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+      }
+      [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #101828 0%, #172554 100%);
+      }
+      [data-testid="stSidebar"] h1,
+      [data-testid="stSidebar"] h2,
+      [data-testid="stSidebar"] h3,
+      [data-testid="stSidebar"] p,
+      [data-testid="stSidebar"] label,
+      [data-testid="stSidebar"] .stMarkdown,
+      [data-testid="stSidebar"] [data-testid="stCaptionContainer"] {
+        color: #e5ecf7 !important;
+      }
+      [data-testid="stSidebar"] hr {
+        border-color: rgba(255,255,255,.17);
+      }
+      div[data-testid="stHorizontalBlock"] { gap: 1rem; }
+      @media (max-width: 760px) {
+        .block-container { padding: 1rem 1rem 2rem; }
+        .hero { padding: 1.45rem 1.25rem; border-radius: 18px; }
+        .hero h1 { font-size: 2rem; }
+        .section-head { padding: .8rem; }
+      }
     </style>
     """,
     unsafe_allow_html=True,
@@ -145,7 +331,12 @@ with st.sidebar:
     st.divider()
     st.caption("No paid LLM/API calls. Manual scenarios remain in memory for the current session.")
 
-st.subheader("1 · Your financial position")
+st.markdown("""
+<div class="section-head">
+  <div class="section-badge">01</div>
+  <div><div class="section-title">Your financial position</div><div class="section-desc">Set the money available today and the reserve you do not want to touch.</div></div>
+</div>
+""", unsafe_allow_html=True)
 col1, col2, col3 = st.columns(3)
 with col1:
     balance = st.number_input("Current balance (₹)", min_value=0.0, value=80000.0, step=1000.0)
@@ -154,7 +345,12 @@ with col2:
 with col3:
     minimum = st.number_input("Minimum balance to protect (₹)", min_value=0.0, value=20000.0, step=1000.0)
 
-st.subheader("2 · Monthly expenses")
+st.markdown("""
+<div class="section-head">
+  <div class="section-badge">02</div>
+  <div><div class="section-title">Monthly expenses</div><div class="section-desc">Separate essential costs from flexible spending you may be willing to reduce or stop.</div></div>
+</div>
+""", unsafe_allow_html=True)
 left, right = st.columns(2, gap="large")
 with left:
     st.markdown("**Essential expenses**")
@@ -192,7 +388,12 @@ with right:
             )
         flexible.append((name, amount, mode_label.lower()))
 
-st.subheader("3 · Purchase request")
+st.markdown("""
+<div class="section-head">
+  <div class="section-badge">03</div>
+  <div><div class="section-title">Purchase request</div><div class="section-desc">Choose the item, price, preferred payment method, and the date you need to complete payment.</div></div>
+</div>
+""", unsafe_allow_html=True)
 p1, p2, p3 = st.columns([1.3, 1, 1])
 with p1:
     item_name = st.text_input("What do you plan to buy?", value="Laptop")
@@ -212,7 +413,7 @@ with p6:
     allow_partial = st.checkbox("Allow splitting into two payments", value=(preference == "partial_payment"))
 question = st.text_input("Your question", value=f"Can I safely afford this {item_name.lower()}?")
 
-analyse = st.button("Analyze purchase safety", type="primary", use_container_width=True)
+analyse = st.button("Analyze purchase safety  →", type="primary", use_container_width=True)
 if analyse:
     all_names = [name for name, _ in essentials] + [name for name, _, _ in flexible]
     duplicate_names = len(all_names) != len(set(all_names))
