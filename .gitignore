@@ -1,0 +1,10 @@
+# Python / local environment
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Runtime files / secrets
+log.txt
+.env
+.streamlit/secrets.toml
